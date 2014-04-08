@@ -1,6 +1,4 @@
 ---
-- hosts: vagrant
-  user: vagrant
-  sudo: no
-  roles:
-      - brunombsilva
+- name: clone the Configuration repository
+  git: accept_hostkey=yes dest={{ brunombsilva.config.clone_dir }} repo={{ brunombsilva.config.repository }} version={{brunombsilva.config.branch}}
+

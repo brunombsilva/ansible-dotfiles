@@ -1,2 +1,8 @@
 ---
+brunombsilva:
+    home_dir: ~
+    config:
+        branch: develop
+        clone_dir: .configuration
+        repository: git@bitbucket.org:brunombsilva/Configuration.git
 
