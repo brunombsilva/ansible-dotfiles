@@ -1,4 +1,26 @@
 ---
-- name: clone the Configuration repository
-  git: accept_hostkey=yes dest={{ brunombsilva.config.clone_dir }} repo={{ brunombsilva.config.repository }} version={{brunombsilva.config.branch}}
+- hosts: vagrant
+
+  tasks:
+    - name: clone the Configuration repository
+      git: accept_hostkey=yes dest={{ brunombsilva.config.clone_dir }} repo={{ brunombsilva.config.repository }} version={{brunombsilva.config.branch}}
+
+    - name: configuration files symlinks
+      file: src={{ brunombsilva.config.clone_dir }}/_{{ item }} dest={{ brunombsilva.home_dir }}/.{{ item }} state=link force=yes
+      with_items:
+        - bashrc
+        - inputrc
+        - bash_profile
+        - bash_logout
+        - gitconfig
+        - gitignore
+        - tmux.conf
+        - tmuxinator
+
+    - name: vim configuration files symlinks
+      file: src={{ brunombsilva.config.clone_dir }}/vim/_{{ item }} dest={{ brunombsilva.home_dir }}/.{{ item }} state=link force=yes
+      with_items:
+        - vimrc
+        - vim
+        - gvimrc
 

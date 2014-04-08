@@ -1,8 +1,8 @@
 ---
 brunombsilva:
-    home_dir: ~
+    home_dir: /home/vagrant
     config:
-        branch: develop
-        clone_dir: .configuration
+        branch: master
+        clone_dir: ~/.configuration
         repository: git@bitbucket.org:brunombsilva/Configuration.git
 
