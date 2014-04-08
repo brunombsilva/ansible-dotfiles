@@ -1,0 +1,6 @@
+---
+- hosts: vagrant
+  user: vagrant
+  sudo: no
+  roles:
+      - brunombsilva
