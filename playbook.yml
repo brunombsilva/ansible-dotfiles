@@ -24,3 +24,8 @@
         - vim
         - gvimrc
 
+    - name: install packages
+      sudo: yes
+      apt: pkg={{ item }}
+      with_items: 
+        - tmux
