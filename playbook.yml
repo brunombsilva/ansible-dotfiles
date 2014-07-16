@@ -16,6 +16,7 @@
         - gitignore
         - tmux.conf
         - tmuxinator
+        - tigrc
 
     - name: vim configuration files symlinks
       file: src={{ brunombsilva.config.clone_dir }}/vim/_{{ item }} dest={{ brunombsilva.home_dir }}/.{{ item }} state=link force=yes
