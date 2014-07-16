@@ -29,7 +29,7 @@
       apt: pkg={{ item }}
       with_items: 
         - tmux
-        - libncurses5-dev
+        - libncursesw5-dev
 
     - name: clone tig
       git: accept_hostkey=yes dest=/tmp/tig repo=http://github.com/jonas/tig version=master
