@@ -4,5 +4,5 @@ brunombsilva:
     config:
         branch: master
         clone_dir: ~/.configuration
-        repository: git@bitbucket.org:brunombsilva/Configuration.git
+        repository: git@github.com:brunombsilva/dotfiles.git
 
