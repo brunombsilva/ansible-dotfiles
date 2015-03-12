@@ -50,3 +50,7 @@
           chdir: /tmp/tig
      
     - gem: name=lolcat state=latest
+
+    - name: clone z
+      git: accept_hostkey=yes dest=~/z repo=https://github.com/rupa/z version=master
+
