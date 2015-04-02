@@ -10,6 +10,7 @@
       with_items:
         - bashrc
         - bash_aliases
+        - bash_functions
         - bash_prompt
         - inputrc
         - bash_profile
@@ -19,6 +20,7 @@
         - tmux.conf
         - tmuxinator
         - tigrc
+        - curlrc
 
     - name: vim configuration files symlinks
       file: src={{ brunombsilva.config.clone_dir }}/vim/_{{ item }} dest={{ brunombsilva.home_dir }}/.{{ item }} state=link force=yes
@@ -43,6 +45,10 @@
     - name: clone tig
       git: accept_hostkey=yes dest=/tmp/tig repo=http://github.com/jonas/tig version=master
 
+    - name: install composer
+      sudo: yes
+      shell: curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+
     - name: install tig
       sudo: yes
       shell: make /usr/local && make install prefix=/usr/local
@@ -51,6 +57,22 @@
      
     - gem: name=lolcat state=latest
 
+    - gem: name=mdl state=latest
+
     - name: clone z
       git: accept_hostkey=yes dest=~/z repo=https://github.com/rupa/z version=master
 
+    - name: powerline
+      pip: name=powerline-status
+
+    - name: powerline git status
+      pip: name=powerline-gitstatus
+
+    - name: npm dependencies
+      npm: name={{ item }} global=yes state=latest
+      sudo: yes
+      with_items:
+        - js-yaml
+
+    - name: install twig lint
+      shell: composer global require "asm89/twig-lint" "@stable"
