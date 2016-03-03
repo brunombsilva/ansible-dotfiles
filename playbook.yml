@@ -41,23 +41,26 @@
         - htop
         - exuberant-ctags
         - ngrep
+        - ruby-full
+        - nodejs
+        - npm
 
     - name: clone tig
       git: accept_hostkey=yes dest=/tmp/tig repo=http://github.com/jonas/tig version=master
 
-    - name: install composer
-      sudo: yes
-      shell: curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+    #- name: install composer
+      #sudo: yes
+      #shell: curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
-    - name: install tig
-      sudo: yes
-      shell: make /usr/local && make install prefix=/usr/local
-      args:
-          chdir: /tmp/tig
+    #- name: install tig
+      #sudo: yes
+      #shell: make /usr/local && make install prefix=/usr/local
+      #args:
+          #chdir: /tmp/tig
      
-    - gem: name=lolcat state=latest
+    #- gem: name=lolcat state=latest
 
-    - gem: name=mdl state=latest
+    #- gem: name=mdl state=latest
 
     - name: clone z
       git: accept_hostkey=yes dest=~/z repo=https://github.com/rupa/z version=master
@@ -74,5 +77,5 @@
       with_items:
         - js-yaml
 
-    - name: install twig lint
-      shell: composer global require "asm89/twig-lint" "@stable"
+    #- name: install twig lint
+      #shell: composer global require "asm89/twig-lint" "@stable"
