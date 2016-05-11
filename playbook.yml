@@ -67,7 +67,9 @@
       #args:
           #chdir: /tmp/tig
      
-    #- gem: name=lolcat state=latest
+    - gem: name=lolcat state=latest
+    - gem: name=sass state=latest
+    - gem: name=ruby-beautify state=latest
 
     #- gem: name=mdl state=latest
 
