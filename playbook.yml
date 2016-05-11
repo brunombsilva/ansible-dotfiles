@@ -45,6 +45,15 @@
         - nodejs
         - npm
 
+    - name: rbenv
+      git: accept_hostkey=yes dest=~/.rbenv repo=https://github.com/rbenv/rbenv.git
+    
+    - name: rbenv ruby-build
+      git: accept_hostkey=yes dest=~/.rbenv/plugins/ruby-build repo=https://github.com/rbenv/ruby-build.git 
+
+    - name: rbenv - bash
+      shell: cd ~/.rbenv && src/configure && make -C src
+
     - name: clone tig
       git: accept_hostkey=yes dest=/tmp/tig repo=http://github.com/jonas/tig version=master
 
@@ -65,17 +74,18 @@
     - name: clone z
       git: accept_hostkey=yes dest=~/z repo=https://github.com/rupa/z version=master
 
-    - name: powerline
-      pip: name=powerline-status
+    #- name: powerline
+      #pip: name=powerline-status
 
-    - name: powerline git status
-      pip: name=powerline-gitstatus
+    #- name: powerline git status
+      #pip: name=powerline-gitstatus
 
     - name: npm dependencies
       npm: name={{ item }} global=yes state=latest
       sudo: yes
       with_items:
         - js-yaml
+        - js-beautify
 
     #- name: install twig lint
       #shell: composer global require "asm89/twig-lint" "@stable"
