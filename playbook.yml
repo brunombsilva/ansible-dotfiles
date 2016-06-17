@@ -32,6 +32,9 @@
     - name: ssh configuration symlinks
       file: src={{ brunombsilva.config.clone_dir }}/_sshconfig dest={{ brunombsilva.home_dir }}/.ssh/config state=link force=yes
 
+    - name: powerline configuration symlinks
+      file: src={{ brunombsilva.config.clone_dir }}/powerline dest={{ brunombsilva.home_dir }}/.config/powerline state=link force=yes
+
     - name: install packages
       sudo: yes
       apt: pkg={{ item }}
@@ -76,11 +79,14 @@
     - name: clone z
       git: accept_hostkey=yes dest=~/z repo=https://github.com/rupa/z version=master
 
-    #- name: powerline
-      #pip: name=powerline-status
+    - name: http-prompt
+      pip: http-prompt
 
-    #- name: powerline git status
-      #pip: name=powerline-gitstatus
+    - name: powerline
+      pip: name=powerline-status
+
+    - name: powerline git status
+      pip: name=powerline-gitstatus
 
     - name: npm dependencies
       npm: name={{ item }} global=yes state=latest
