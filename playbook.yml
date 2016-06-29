@@ -21,6 +21,8 @@
         - tmuxinator
         - tigrc
         - curlrc
+        - my.cnf
+        - grcat
 
     - name: vim configuration files symlinks
       file: src={{ brunombsilva.config.clone_dir }}/vim/_{{ item }} dest={{ brunombsilva.home_dir }}/.{{ item }} state=link force=yes
@@ -47,6 +49,8 @@
         - ruby-full
         - nodejs
         - npm
+        - grc
+        - lnav
 
     - name: rbenv
       git: accept_hostkey=yes dest=~/.rbenv repo=https://github.com/rbenv/rbenv.git
