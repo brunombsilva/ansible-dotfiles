@@ -8,9 +8,8 @@
     - name: configuration files symlinks
       file: src={{ brunombsilva.config.clone_dir }}/_{{ item }} dest={{ brunombsilva.home_dir }}/.{{ item }} state=link force=yes
       with_items:
+        - bash.bashrc
         - bashrc
-        - bash_aliases
-        - bash_functions
         - bash_prompt
         - inputrc
         - bash_profile
@@ -51,6 +50,7 @@
         - npm
         - grc
         - lnav
+        - git-extras
 
     - name: rbenv
       git: accept_hostkey=yes dest=~/.rbenv repo=https://github.com/rbenv/rbenv.git
@@ -84,7 +84,7 @@
       git: accept_hostkey=yes dest=~/z repo=https://github.com/rupa/z version=master
 
     - name: http-prompt
-      pip: http-prompt
+      pip: name=http-prompt
 
     - name: powerline
       pip: name=powerline-status
