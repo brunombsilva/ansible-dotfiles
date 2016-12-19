@@ -1,8 +1,8 @@
 ---
 brunombsilva:
-    home_dir: /home/vagrant
+    home_dir: /home/ubuntu
     config:
         branch: master
         clone_dir: ~/.configuration
-        repository: git@github.com:brunombsilva/dotfiles.git
+        repository: https://github.com/brunombsilva/dotfiles.git
 

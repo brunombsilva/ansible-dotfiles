@@ -1,9 +1,18 @@
 ---
-- hosts: vagrant
+- hosts: local
 
   tasks:
     - name: clone the Configuration repository
-      git: accept_hostkey=yes dest={{ brunombsilva.config.clone_dir }} repo={{ brunombsilva.config.repository }} version={{brunombsilva.config.branch}}
+      git: accept_hostkey=yes dest={{ brunombsilva.config.clone_dir }} repo={{ brunombsilva.config.repository }} version={{brunombsilva.config.branch}} recursive=false
+
+    - name: configuration submodules
+      shell: git submodule update --init
+      args:
+        chdir: "{{ brunombsilva.config.clone_dir }}" 
+      register: task_result
+      until: task_result.rc == 0
+      retries: 10
+      ignore_errors: yes
 
     - name: configuration files symlinks
       file: src={{ brunombsilva.config.clone_dir }}/_{{ item }} dest={{ brunombsilva.home_dir }}/.{{ item }} state=link force=yes
@@ -37,7 +46,7 @@
       file: src={{ brunombsilva.config.clone_dir }}/powerline dest={{ brunombsilva.home_dir }}/.config/powerline state=link force=yes
 
     - name: install packages
-      sudo: yes
+      become: true
       apt: pkg={{ item }}
       with_items: 
         - tmux
@@ -65,11 +74,11 @@
       git: accept_hostkey=yes dest=/tmp/tig repo=http://github.com/jonas/tig version=master
 
     #- name: install composer
-      #sudo: yes
+      #become: true
       #shell: curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
     #- name: install tig
-      #sudo: yes
+      #become: true
       #shell: make /usr/local && make install prefix=/usr/local
       #args:
           #chdir: /tmp/tig
@@ -94,7 +103,7 @@
 
     - name: npm dependencies
       npm: name={{ item }} global=yes state=latest
-      sudo: yes
+      become: true
       with_items:
         - js-yaml
         - js-beautify
