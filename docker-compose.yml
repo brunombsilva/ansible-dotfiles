@@ -1,0 +1,10 @@
+version: '2'
+
+services:
+   brunombsilva:
+      container_name: dotfiles
+      build:
+        context: .
+      volumes:
+        - .:/ansible:rw
+    

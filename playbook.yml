@@ -5,14 +5,25 @@
     - name: clone the Configuration repository
       git: accept_hostkey=yes dest={{ brunombsilva.config.clone_dir }} repo={{ brunombsilva.config.repository }} version={{brunombsilva.config.branch}} recursive=false
 
+    - name: install vim
+      shell: add-apt-repository ppa:jonathonf/vim && apt-get -y update  && apt-get -y install vim
+      become: true
+
     - name: configuration submodules
       shell: git submodule update --init
       args:
         chdir: "{{ brunombsilva.config.clone_dir }}" 
       register: task_result
       until: task_result.rc == 0
-      retries: 10
+      retries: 3
       ignore_errors: yes
+      when: false
+
+    - name: ensure directories
+      file: dest={{ brunombsilva.home_dir }}/{{item}} state=directory
+      with_items:
+        - .ssh
+        - .config
 
     - name: configuration files symlinks
       file: src={{ brunombsilva.config.clone_dir }}/_{{ item }} dest={{ brunombsilva.home_dir }}/.{{ item }} state=link force=yes
@@ -60,6 +71,7 @@
         - grc
         - lnav
         - git-extras
+        - wget
 
     - name: rbenv
       git: accept_hostkey=yes dest=~/.rbenv repo=https://github.com/rbenv/rbenv.git
@@ -85,12 +97,25 @@
      
     - gem: name=lolcat state=latest
     - gem: name=sass state=latest
-    - gem: name=ruby-beautify state=latest
+    #- gem: name=ruby-beautify state=latest
 
     #- gem: name=mdl state=latest
 
     - name: clone z
       git: accept_hostkey=yes dest=~/z repo=https://github.com/rupa/z version=master
+
+    - name: download python
+      get_url: url=https://www.python.org/ftp/python/2.7.9/Python-2.7.9.tgz dest=/tmp/
+
+    - name: install python
+      command: "{{item}}"
+      with_items:
+         - apt-get install build-essential
+         - apt-get install libreadline-gplv3-dev libncursesw6-dev libssl-dev libsqlite3-dev tk-dev libgdbm-dev libc6-dev libbz2-dev
+         - tar -xvf Python-2.7.9.tgz && cd Python-2.7.9 && ./configure && make && make install
+      args:
+        chdir: /tmp
+      become: true
 
     - name: http-prompt
       pip: name=http-prompt
