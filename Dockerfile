@@ -15,5 +15,5 @@ USER ubuntu
 ADD . /ansible
 WORKDIR /ansible
 
-#RUN ./provision.sh
+RUN ./provision.sh
 WORKDIR /home/ubuntu

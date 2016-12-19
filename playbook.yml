@@ -8,6 +8,8 @@
     - name: install vim
       shell: add-apt-repository ppa:jonathonf/vim && apt-get -y update  && apt-get -y install vim
       become: true
+      args:
+         creates: /usr/bin/vim
 
     - name: configuration submodules
       shell: git submodule update --init
@@ -105,26 +107,48 @@
       git: accept_hostkey=yes dest=~/z repo=https://github.com/rupa/z version=master
 
     - name: download python
-      get_url: url=https://www.python.org/ftp/python/2.7.9/Python-2.7.9.tgz dest=/tmp/
+      unarchive: src=https://www.python.org/ftp/python/2.7.9/Python-2.7.9.tgz dest=/tmp/ remote_src=yes
+      when: false
 
-    - name: install python
-      command: "{{item}}"
+    - name: install python dependencies
+      apt: pkg={{ item }}
+      become: true
+      when: false
       with_items:
-         - apt-get install build-essential
-         - apt-get install libreadline-gplv3-dev libncursesw6-dev libssl-dev libsqlite3-dev tk-dev libgdbm-dev libc6-dev libbz2-dev
-         - tar -xvf Python-2.7.9.tgz && cd Python-2.7.9 && ./configure && make && make install
+         - build-essential
+         - libreadline-gplv2-dev 
+         - libncursesw5-dev 
+         - libssl-dev 
+         - libsqlite3-dev 
+         - tk-dev 
+         - libgdbm-dev 
+         - libc6-dev 
+         - libbz2-dev
+
+    - name: install phyton
+      shell: ./configure && make && make install
       args:
-        chdir: /tmp
+        chdir: /tmp/Python-2.7.9
+      become: true
+      when: false
+
+    - name: download pip
+      get_url: url=https://bootstrap.pypa.io/get-pip.py dest=/tmp/ remote_src=yes
+    - name: install pip
+      shell: python /tmp/get-pip.py
       become: true
 
     - name: http-prompt
       pip: name=http-prompt
+      become: true
 
     - name: powerline
       pip: name=powerline-status
+      become: true
 
     - name: powerline git status
       pip: name=powerline-gitstatus
+      become: true
 
     - name: npm dependencies
       npm: name={{ item }} global=yes state=latest
